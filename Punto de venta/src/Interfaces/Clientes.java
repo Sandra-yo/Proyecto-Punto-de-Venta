@@ -115,7 +115,9 @@ public class Clientes {
     }
 
     public void agregarUsuario() throws SQLException {
-         p.setNombre(text[1].getText());
+         p.setNombre(text[4].getText());
+         p.setApellido_P(text[5].getText());
+         p.setApellido_M(text[6].getText());
         ResultSet r= p.buscar();
        
        if(r.next()){
@@ -201,16 +203,24 @@ public class Clientes {
         p.borrarTabla();
         armarTablas();
     }
+    public void limpiar(){
+        for (int i = 0; i < text.length; i++) {
+            text[i].setText(" ");
+        }
+    }
 
-    private class Escucha extends MouseAdapter {
+    private class Escucha extends MouseAdapter {//<------
 
         public void mouseClicked(MouseEvent evento) {
 
             if (evento.getSource() == tableClientes) {
+              
+                
+                //llena los textos
                 text[0].setText(Integer.toString((int) c.dtm.getValueAt(tableClientes.getSelectedRow(), 0)));
-                text[1].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 2));
-                text[2].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 3));
-                text[3].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 4));
+                text[1].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 1));
+                text[2].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 2));
+                text[3].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 3));
 
                 c.setId_Cliente(Integer.parseInt(text[0].getText()));
                 ResultSet r = c.buscar("select* from persona p join clientes c where c.id_person_fk=p.id_person and id_cliente=" + c.getId_Cliente());

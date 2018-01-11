@@ -26,7 +26,7 @@ public class Transacciones extends JFrame {
     JPanel uno;
     JPanel paneles[];
     JTable tabla;
-    String nombres[]={"producto","ID","Nombre","cantidad","fecha","","usuario",""};
+    String nombres[]={"producto","ID","cantidad","fecha","","usuario",""};
     
  public Transacciones(){
      super("Ferreteria");

@@ -67,6 +67,7 @@ public class Login extends JFrame implements ActionListener {
         n.setVisible(true);
         n.setSize(300,400);
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -86,7 +87,7 @@ public class Login extends JFrame implements ActionListener {
                  n.setSize(800, 600);
                  n.setResizable(false);
                  tipo=(String) r.getObject(2);
-                 
+                 n.validaUsuario(Integer.parseInt(usuario), tipo);
                  dispose();
                  
               }

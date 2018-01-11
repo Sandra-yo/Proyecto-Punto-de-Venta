@@ -15,7 +15,7 @@ import java.sql.ResultSet;
  * @author sandra
  */
 public class TransaccionBD {
-    int id;
+    int id,id_Lista;
     String fecha,tipo,formaPago;
     int precioSIva,precioCIva;
     float iva;
@@ -26,6 +26,13 @@ public class TransaccionBD {
 
     public void setId(int id) {
         this.id = id;
+    }
+    public int getIdLista() {
+        return id_Lista;
+    }
+
+    public void setIdLista(int id) {
+        this.id_Lista = id;
     }
 
     public String getFecha() {

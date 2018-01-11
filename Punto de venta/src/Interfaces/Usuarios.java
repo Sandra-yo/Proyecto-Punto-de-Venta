@@ -154,21 +154,24 @@ public class Usuarios extends JFrame {
     }
 
     public void actualizarTabla() {
-        usu.borrarTabla();
+        
         per.borrarTabla();
+        usu.borrarTabla();
         armaTabla();
     }
 
     public void borrarUsuario() {
-        usu.setId_usuario(Integer.parseInt(text[0].getText()));
-        usu.borrar();
-        
+           
         
         per.setNombre(text[1].getText());
         per.setApellido_P(text[2].getText());
         per.setApellido_M(text[3].getText());
+        per.modificarn();
         
-        per.borrar();
+        usu.setId_usuario(Integer.parseInt(text[0].getText()));
+        usu.borrar();
+        
+     
     }
 
     public void modificarUsuario() {
@@ -215,12 +218,17 @@ public class Usuarios extends JFrame {
             BuscarEnTabla m= new BuscarEnTabla(per.dtm,"select nombre,apellido_1,apellido_2,direccion,colonia,correo,fecha_nacimiento from Usuario u join persona p where u.id_person_fk=p.id_person and id_usuario="+usu.getId_usuario(),7);
             BuscarEnTabla n= new BuscarEnTabla(usu.dtm,"select  id_usuario, u.tipo ,comision  from Usuario u join persona p where u.id_person_fk=p.id_person and id_usuario="+usu.getId_usuario(),3);
             m.start();
-            n.start();
+            n.start();//<------------------------------------------
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+public void limpiar(){
+    for (int i = 0; i < 11; i++) {
+         text[i].setText("");
+        
+    }
+}
   
 
     private class Escucha extends MouseAdapter {

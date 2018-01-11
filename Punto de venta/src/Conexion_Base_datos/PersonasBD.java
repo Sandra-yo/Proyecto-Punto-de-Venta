@@ -146,6 +146,7 @@ public class PersonasBD {
             }
             return dtm;
         } catch (Exception e) {
+            
             e.printStackTrace();
 
         }
@@ -195,7 +196,19 @@ public class PersonasBD {
             return false;
         }
     }
-    
+    public boolean modificarn(){
+        String sql="update persona set tipo='no' where nombre='"+nombre+"';";
+        conectarBD();
+        try{
+            PreparedStatement ps=Conexion.conexion.prepareStatement(sql);
+            
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
    public void agregar(){
        conectarBD();
         String sql =

@@ -9,6 +9,7 @@ import Conexion_Base_datos.Carrito;
 import Conexion_Base_datos.ClientesBD;
 import Conexion_Base_datos.ProductosBD;
 import Conexion_Base_datos.TransaccionBD;
+import Conexion_Base_datos.TransxPerson;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,7 @@ public class Ventas extends Thread {
    private Carrito crr;
    JTabbedPane pestañas;
    private JLabel[] etiq;
-   private String nom[]={"Ventas","ID","Nombre","Razon social","RFC","Tipo",
+   private String nom[]={"Ventas","ID","Razon social","RFC","Tipo",
                         "Productos","ID","Nombre","Cantidad","Existencia","Precio"};
    private JTextField tex[];
    private JButton comprar, carrito;
@@ -47,6 +48,7 @@ public class Ventas extends Thread {
    private JLabel prec;
    private JTextField precio;
            float iva;
+  TransxPerson tp;
    public Ventas(){
        comprar= new JButton("comprar");
        carrito= new JButton("carrito");
@@ -80,7 +82,7 @@ public class Ventas extends Thread {
        tex= new JTextField[12];
        precio= new JTextField(11);
        pan2.setLayout(new FlowLayout());
-       for (int i = 1; i < 12; i++) {
+       for (int i = 1; i < 11; i++) {
            etiq[i]=new JLabel(nom[i]);
            tex[i]= new JTextField(11);
        }
@@ -90,13 +92,14 @@ public class Ventas extends Thread {
        //etiq[2].setBounds(30,40,50,30);
        //etiq[3].setBounds(90,40,100,30);
        
-       for (int i = 1; i < 6; i++) {
+       for (int i = 1; i < 5; i++) {
           pan1.add(etiq[i]);
           pan1.add(tex[i+1]);
        }
-       for (int i = 7; i < 11; i++) {
+       for (int i = 6; i < 10; i++) {
           pan2.add(etiq[i]);
           pan2.add(tex[i+1]);
+          
        }
        pan2.add(prec);
        pan2.add(precio);
@@ -142,18 +145,40 @@ public class Ventas extends Thread {
                if(n==1){
                    pago="Efectivo";
                    int m=Integer.parseInt(JOptionPane.showInputDialog(null,"Cantidad recibida:"));
-                   int cambio=calculaTotal()-m;
+                   int cambio=m-calculaTotal();
                            JOptionPane.showMessageDialog(null,"Gracias por su compra :) \n su cambio es $ "+cambio+".00");
+                            TransaccionBD tr= new TransaccionBD();
+               
+                    tr.setFecha((new Principal()).fecha_act.getText());
+                    tr.setTipo("Venta");
+                    tr.setPrecioSIva(calculaTotal());
+                    tr.setIva((float) ((double)calculaTotal()*0.16));
+                    tr.setPrecioCIva(calculaTotal()+(int) ((double)calculaTotal()*0.16));
+                    tr.setFormaPago(pago);
+                    
+                    tr.agregar();
+                    
+                   tp= new TransxPerson();
+                    habilitaTextos(true);
+                               tp.setId_person(Integer.parseInt(tex[2].getText()));
+                               
+                  try {
+                      ResultSet t=tr.buscarR();
+                      if(t.next()){
+                              tp.setId_transaccion ((int) (crr.getIdTransaccion()));
+                      }
+                  } catch (SQLException ex) {
+                      Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                                                          tp.setUsuario(new Principal().noUsuario);
+                                         System.out.println((new Principal()).usu1.getText());
+                    
+                    tp.agregar();
+                      
                }else if(n==0){
                    pago="Tarjeta";
                    JOptionPane.showMessageDialog(null,"Gracias por su compra :) ");
-               }else if(n==2){
-                   //aqui codigo de borrar lista
-                   
-                   crr.borrar();
-               }
-              //aqui se genera el codigo de transaccion
-              TransaccionBD tr= new TransaccionBD();
+                    TransaccionBD tr= new TransaccionBD();
                     tr.setFecha((new Principal()).fecha_act.getText());
                     tr.setTipo("Venta");
                     tr.setPrecioSIva(calculaTotal());
@@ -161,6 +186,14 @@ public class Ventas extends Thread {
                     tr.setPrecioCIva(calculaTotal()+(int) ((double)calculaTotal()*0.16));
                     tr.setFormaPago(pago);
                       tr.agregar();
+               }else if(n==2){
+                   //aqui codigo de borrar lista
+                   
+                   crr.borrar();
+               }
+              //aqui se genera el codigo de transaccion
+             
+                      
                               }
        });
        carrito.addActionListener(new ActionListener() {
@@ -168,11 +201,11 @@ public class Ventas extends Thread {
            public void actionPerformed(ActionEvent e) {
                habilitaTextos(false);
                
-               if(tex[10].getText().equals("")){
+               if(tex[9].getText().equals("")){
                         JOptionPane.showMessageDialog(null,"Por favor, ingrese la cantidad solicitada del producto que desea ");
                }else{
-              crr.setIdProducto(Integer.parseInt(tex[8].getText()));
-              crr.setCantidad(Integer.parseInt(tex[10].getText()));
+              crr.setIdProducto(Integer.parseInt(tex[7].getText()));
+              crr.setCantidad(Integer.parseInt(tex[9].getText()));
               crr.setUnitario(Integer.parseInt(precio.getText()));
               crr.setTotal(calculaTotalP());
                }
@@ -207,7 +240,7 @@ public class Ventas extends Thread {
     }
     public int calculaTotalP(){
         int tP=0;
-        tP=Integer.parseInt(tex[10].getText())*Integer.parseInt(precio.getText());
+        tP=Integer.parseInt(tex[9].getText())*Integer.parseInt(precio.getText());
         return tP;
         
     }
@@ -219,6 +252,12 @@ public class Ventas extends Thread {
     public void habilitaTextos(boolean hab){
          for (int i = 1; i < 7; i++) {
             tex[i].setEditable(hab);
+        }
+    }
+    public void limpiar(){
+        habilitaTextos(true);
+        for (int i = 1; i < 7; i++) {
+            tex[i].setText("");
         }
     }
     
@@ -237,15 +276,15 @@ public class Ventas extends Thread {
                 tex[3].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 1));
                 tex[4].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 2));
                 tex[5].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 3));
-                tex[6].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 4));
+//                tex[6].setText((String) c.dtm.getValueAt(tableClientes.getSelectedRow(), 4));
                 }
                    
                 
             } else if (evento.getSource() == tableProductos) {
             if(tableProductos.getSelectedRow()!=-1){
-                tex[8].setText(Integer.toString((int) p.dtm.getValueAt(tableProductos.getSelectedRow(), 0)));
-                tex[9].setText((String) p.dtm.getValueAt(tableProductos.getSelectedRow(), 1));
-                tex[11].setText(Integer.toString((int) p.dtm.getValueAt(tableProductos.getSelectedRow(), 3)));
+                tex[7].setText(Integer.toString((int) p.dtm.getValueAt(tableProductos.getSelectedRow(), 0)));
+                tex[8].setText((String) p.dtm.getValueAt(tableProductos.getSelectedRow(), 1));
+                tex[10].setText(Integer.toString((int) p.dtm.getValueAt(tableProductos.getSelectedRow(), 3)));
                 precio.setText(Integer.toString((int) p.dtm.getValueAt(tableProductos.getSelectedRow(), 5)));
                                        
                

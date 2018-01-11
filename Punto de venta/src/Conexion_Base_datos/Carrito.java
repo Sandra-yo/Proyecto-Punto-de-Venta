@@ -84,6 +84,12 @@ public class Carrito {
 
 
     }
+    public ResultSet buscarR(String sql){
+        
+        Conexion.conectarBD();
+          ResultSet resultado = Conexion.ejecutarSQLSelect(sql);
+        return resultado;
+    }
     public DefaultTableModel LlenarTabla() {
         conectarBD();
         try {

@@ -168,6 +168,11 @@ public class Proveedores {
             e.printStackTrace();
         }
     }
+ public void limpiar(){
+        for (int i = 0; i < text.length; i++) {
+            text[i].setText(" ");
+        }
+    }
  public void modificarProveedor() {//<-----------
         pro.setId(Integer.parseInt(text[0].getText()));
         pro.setVisita(text[1].getText());

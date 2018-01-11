@@ -74,7 +74,7 @@ public class Reportes extends JFrame {
 
         r = new ReporteBD();
         r.agregarColumnas();
-        reporte = new JTable(r.LlenarTabla());
+        reporte = new JTable(r.LlenarTabla("select  usuario, fecha, precio_con_iva,id_person_fk  from TransxPerson tp join transaccion t "));
 
         p = new Principal();
 
@@ -97,6 +97,7 @@ public class Reportes extends JFrame {
                 fInicio.setEnabled(false);
                 fFinal.setEnabled(false);
                 usuario.setEnabled(true);
+                
 
             }
         });
@@ -111,6 +112,18 @@ public class Reportes extends JFrame {
             }
         });
         btn3 = new JButton("Buscar");
+        btn3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(usuario.getText()==""){
+                    
+                }else{
+                    System.out.println("....");
+                    borrarTabla();
+               reporte= new JTable(r.LlenarTabla("select  usuario, fecha, precio_con_iva,id_person_fk  from TransxPerson tp join transaccion t where tp.id_transaccion_fk= t.id_transaccion and usuario="+usuario.getText()));
+                }
+            }
+        });
 
         pdf = new JButton("PDF");
         pdf.addActionListener(new ActionListener() {
@@ -204,7 +217,7 @@ public class Reportes extends JFrame {
 
         tabla.addCell("Id usuario");
         tabla.addCell("Fecha de compra");
-        tabla.addCell("Producto");
+        tabla.addCell("Total");
         tabla.addCell("Cliente");
 
         for (int i = 0; i < reporte.getRowCount(); i++) {
@@ -237,7 +250,7 @@ public class Reportes extends JFrame {
 
         m[0][0] = "Id usuario";
         m[0][1] = "Fecha de Compra";
-        m[0][2] = "producto";
+        m[0][2] = "total";
         m[0][3] = "Cliente";
         //System.out.println(filas);
         int k = 1;
@@ -253,7 +266,12 @@ public class Reportes extends JFrame {
 
         return m;
     }
+   public void borrarTabla() {
+        do {
+            r.dtm.removeRow(r.dtm.getRowCount() - 1);
+        } while (r.dtm.getRowCount() != 0);
 
+    }
     public void crearExcel(String[][] matriz, String ruta) throws WriteException {
         try {
 

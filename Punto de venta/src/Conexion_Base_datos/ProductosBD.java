@@ -235,6 +235,24 @@ public class ProductosBD {
             return false;
         }
     }
+      public boolean modificacionPorVenta(){
+        String sql=
+                "update Producto set existencia=? where id_person="+this.id;
+        conectarBD();
+        try{
+            PreparedStatement ps=Conexion.conexion.prepareStatement(sql);
+           
+            ps.setInt(1, this.existencia);
+            
+
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+     
     
         
 }

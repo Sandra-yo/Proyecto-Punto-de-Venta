@@ -5,12 +5,15 @@
  */
 package Interfaces;
 
+import Conexion_Base_datos.Conexion;
+import static Conexion_Base_datos.Conexion.conectarBD;
 import Conexion_Base_datos.ProductosBD;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -135,11 +138,18 @@ public class Productos extends JFrame{
       
        tableProductos= new JTable(prod.buscarEnTabla());
    }
+     public void limpiar(){
+        for (int i = 0; i < text.length; i++) {
+            text[i].setText(" ");
+        }
+    }
+      
      private class Escucha extends MouseAdapter {
 
         public void mouseClicked(MouseEvent evento) {
 
             
+               try{
                 text[0].setText(Integer.toString((int) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 0)));
                 text[1].setText((String) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 1));
                 text[2].setText((String) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 2));
@@ -148,9 +158,13 @@ public class Productos extends JFrame{
                 text[5].setText(Integer.toString((int) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 5)));
                 text[6].setText(Integer.toString((int) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 6)));
                 text[7].setText(Integer.toString((int) prod.dtm.getValueAt(tableProductos.getSelectedRow(), 7)));                
+            }catch(Exception e){
+                   System.out.println(e);
             }
+            }
+           }
         }
-    }
+    
 
 
 

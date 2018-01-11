@@ -71,7 +71,6 @@ public class ClientesBD {
     }
     public void agregarColumnas() {
         dtm.addColumn("id");
-        dtm.addColumn("nombre");
         dtm.addColumn("Razon social");
         dtm.addColumn("RFC");
         dtm.addColumn("Tipo");
@@ -109,9 +108,9 @@ public class ClientesBD {
                     Object fila[] = new Object[5];
                    
                         fila[0] = rs.getObject(1);
-                        fila[2] = rs.getObject(2);
-                        fila[3] = rs.getObject(3);
-                        fila[4] = rs.getObject(4);
+                        fila[1] = rs.getObject(2);
+                        fila[2] = rs.getObject(3);
+                        fila[3] = rs.getObject(4);
                         
                         
                                         

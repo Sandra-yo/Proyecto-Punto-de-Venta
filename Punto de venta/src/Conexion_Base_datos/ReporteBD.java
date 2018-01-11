@@ -59,21 +59,27 @@ public class ReporteBD {
         
         dtm.addColumn("Id Usuario");  
         dtm.addColumn("Fecha de compra"); 
-        dtm.addColumn("Producto");
+        dtm.addColumn("Total");
         dtm.addColumn("Cliente"); 
 
     }
-    public DefaultTableModel LlenarTabla() {
+    public void valores(){
+        
+    }
+    public DefaultTableModel LlenarTabla(String sql) {
         conectarBD();
         try {
             if (!conexion.isClosed()) {
                 Statement st = conexion.createStatement();
-                ResultSet rs = st.executeQuery("select*From TransxPerson ");
+                ResultSet rs = st.executeQuery(sql);
 
                 while (rs.next()) {
                     Object fila[] = new Object[4];
-                    for (int i = 0; i < 4; i++) {
-                        fila[i] = rs.getObject(i + 1);
+                    for (int i = 0; i < 3; i++) {
+                        fila[0] = rs.getObject(1);
+                        fila[1]=rs.getObject(2);
+                        fila[2]=rs.getObject(3);
+                        fila[3]=rs.getObject(4);
 
                     }
                     dtm.addRow(fila);

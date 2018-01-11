@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Conexion_Base_datos.PersonasBD;
 import Conexion_Base_datos.UsuariosCB;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -47,13 +48,14 @@ public class Principal extends JFrame {
     Proveedores p_Proveedores;
     Usuarios p_usu;
     Productos p_prod;
+    PersonasBD personas;
     String columnas[]={"columna 1","columna 2","columna3"};
     String filas[][]={{"","",""}};
     public JTable tabla;
     public DefaultTableModel dtm;
     String tipo;
     JTabbedPane pestañas;
-    
+    int noUsuario;
     
     public Principal() {
         super("Ferreteria");
@@ -84,7 +86,7 @@ public class Principal extends JFrame {
         fecha_act.setText(fechaAct.get(Calendar.DAY_OF_MONTH)+"/"+(fechaAct.get(Calendar.MONTH)+1)+"/"+ fechaAct.get(Calendar.YEAR));
         usu= new JLabel("Usuario:");
         usu.setBounds(30,20,70,50);
-        usu1= new JLabel("000000");
+        usu1= new JLabel();
         usu1.setBounds(100,20,70,50);
               
         //clases
@@ -110,7 +112,6 @@ public class Principal extends JFrame {
     
         //botones
         guardar= new JButton("Guardar");
-        //guardar.setIcon(iconoG);
         guardar.setBounds(20,20,100,30);
         borrar= new JButton("Borrar");
         borrar.setBounds(20,60,100,30);
@@ -121,11 +122,11 @@ public class Principal extends JFrame {
         modificar= new JButton("Modificar");
         modificar.setBounds(20,140,100,30);
         
+        JButton limpiar= new JButton("Limpiar");
+        limpiar.setBounds(20,180,100,30);
         
         //accion de botones
-        if((new Login()).tipo=="usuario"){
-            usuario.setEnabled(false);
-        }
+       
         Manejador m= new Manejador();
         usuario.addActionListener(new ActionListener() {
             @Override
@@ -176,9 +177,10 @@ public class Principal extends JFrame {
                 pan6.add(p_Clientes.fondo);
                 pan6.revalidate();
                 pan6.repaint();
+                tipo="clientes";
             }
         });
-        proveedores.addActionListener(new ActionListener() {
+        proveedores.addActionListener(new ActionListener() {//<----------------------------------------------------------------
             @Override
             public void actionPerformed(ActionEvent e) {
                 tipo="Proveedores";
@@ -205,11 +207,11 @@ public class Principal extends JFrame {
                 pan4.revalidate();
                 pan4.repaint();
                 
-                p_prod.pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(p_prod.pestañas);
-                pan4.revalidate();
-                pan4.repaint();
+                p_prod.fondo.setLocation(5,5);
+                pan6.removeAll();
+                pan6.add(p_prod.fondo);
+                pan6.revalidate();
+                pan6.repaint();
                 
             }
         });
@@ -218,6 +220,15 @@ public class Principal extends JFrame {
         borrar.addActionListener(m);
         modificar.addActionListener(m);
         buscar.addActionListener(m);
+        limpiar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               p_usu.limpiar();
+               p_Clientes.limpiar();
+               p_usu.limpiar();
+               p_Venta.limpiar();
+            }
+        });
         
         catalogos.add(usuario);
         catalogos.add(clientes);
@@ -236,11 +247,6 @@ public class Principal extends JFrame {
         pan3.setBounds(612,105,185,240);
         pan4.setBounds(20,370,600,191);
         pan6.setBounds(0,0,620,370);
-       // .setBounds(0,0,600,350);
-        //p_Proveedores.fondo.setBounds(0,0,600,350);
-        //p_prod.fondo.setBounds(0,0,600,350);
-        //p_usu.fondo.setBounds(0,0,600,350);
-       // pan6.add(p_Clientes.fondo);
         pan2.add(fecha);
         pan2.add(fecha_act);
         pan2.add(usu);  
@@ -250,12 +256,16 @@ public class Principal extends JFrame {
         pan3.add(borrar);
         pan3.add(buscar);
         pan3.add(modificar);
+        pan3.add(limpiar);
         
         
         
         //pestañas
         pestañas= new JTabbedPane();
         pestañas.addTab("Usuario",null,p_usu.fondoTbla);
+        pestañas.addTab("Datos Personales ",null, 
+                this.p_usu.tabla2);
+        
         
         pan5.add(pestañas);
         
@@ -265,22 +275,9 @@ public class Principal extends JFrame {
         pan1.add(pan3);
         pan1.add(pan4);
         
-        //pan1.add(p_usu.fondo);
-//        pan1.add(p_Venta.fondo);
-//        pan1.add(p_Proveedores.fondo);
-//        pan1.add(p_prod.fondo);
-//        pan1.add(p_Clientes.fondo);
-//        pan1.add(p_usu.fondo);
-//        
-      //  pan4.add(pan5);
-//        pan4.add(p_Venta.pan5);
-//        pan4.add(p_prod.pan5);
-//        pan4.add(p_Clientes.pan5);
-//        pan4.add(p_Proveedores.pan5);
-
         
         add(pan1,BorderLayout.CENTER);
-       // visibilidad();
+        
         setJMenuBar(menu);
         
     }
@@ -299,6 +296,15 @@ public class Principal extends JFrame {
             p_Clientes.fondo.setVisible(false);
             
         }
+    public void validaUsuario(int usuario,String tipo){
+        usu1.setText(Integer.toString(usuario));
+        this.noUsuario=usuario;
+         if("usuario".equals(tipo)){
+       this.usuario.setEnabled(false);
+    }
+           
+       
+       }
    
     private class Manejador implements ActionListener{
 
@@ -316,8 +322,9 @@ public class Principal extends JFrame {
                   p_usu.actualizarTabla();
                 }else if(tipo=="clientes"){
                     try {
-                        p_Clientes.agregarUsuario();
+                        
                         p_Clientes.agregarDatosUsuario();
+                        p_Clientes.agregarUsuario();
                         p_Clientes.actualizarTabla();
                     } catch (SQLException ex) {
                         Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
