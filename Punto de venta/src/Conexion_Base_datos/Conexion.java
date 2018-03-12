@@ -28,7 +28,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/FerreteriaTop", "HostSandra", "2923520:3.");
+                    "jdbc:mysql://localhost:3306/FerreteriaTop", "root", "");
 
         } catch (Exception ae) {
             return false;

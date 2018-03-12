@@ -40,14 +40,14 @@ public class Productos extends JFrame{
     JTable tableProductos;
     JTabbedPane pestañas;
     JTextArea area;
-    String d_Productos[]={"Id","Nombre","Descripcion","Existencia","Costo","Precio","Inventario max","Inventario min","Descripcion"};
+    String d_Productos[]={"Id","Nombre","Tipo","Descripcion","Existencia","Costo","PrecioPublico","Precio maximo","Inventario min","Descripcion"};
     public Productos(){
         
         pan5= new JPanel();
         pan1= new JPanel();
         fondo= new JPanel();
         fondo.setLayout(null);
-        pan1.setLayout(new FlowLayout());
+        pan1.setLayout(new GridLayout(5,4));
         pan5.setLayout(new FlowLayout());
         area= new JTextArea(20,40);
         ScrollPane scroll = new ScrollPane();
@@ -72,7 +72,7 @@ public class Productos extends JFrame{
         //tabla
         tableProductos = new JTable(prod.dtm);
         prod.agregarColumnas();
-        armarTablas();
+      //  armarTablas();
 
         
         //scroll

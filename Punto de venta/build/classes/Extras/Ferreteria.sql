@@ -135,6 +135,7 @@ insert into Usuario(tipo,comision,id_person_fk,contraseña,estado) values('usuar
 insert into Usuario(tipo,comision,id_person_fk,contraseña,estado) values('usuario',20,4,'hola','activo');
 insert into Usuario(tipo,comision,id_person_fk,contraseña,estado) values('admin',50,5,'gato','activo');
 
+
 alter table persona change fecha_nacimiento fecha_nacimiento varchar(20);
 alter table persona change id_person id_person int not null auto_increment;
 alter table Usuario change id_usuario id_usuario int not null auto_increment;

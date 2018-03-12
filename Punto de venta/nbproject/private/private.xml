@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Pruebas/PruebaProd.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Conexion_Base_datos/Conexion.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Interfaces/Productos.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Interfaces/Principal.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Conexion_Base_datos/PersonasBD.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Conexion_Base_datos/ProductosBD.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/Interfaces/Login.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/NuevaBaseDatos/ProductosBD.java</file>
+            <file>file:/C:/Users/sandr/OneDrive/Desktop/NetBeansProjects/Punto%20de%20venta/src/NuevaBaseDatos/Conexion.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -5,8 +5,8 @@
  */
 package Interfaces;
 
-import Conexion_Base_datos.PersonasBD;
-import Conexion_Base_datos.UsuariosCB;
+//import Conexion_Base_datos.PersonasBD;
+//import Conexion_Base_datos.UsuariosCB;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
@@ -48,7 +48,7 @@ public class Principal extends JFrame {
     Proveedores p_Proveedores;
     Usuarios p_usu;
     Productos p_prod;
-    PersonasBD personas;
+    //PersonasBD personas;
     String columnas[]={"columna 1","columna 2","columna3"};
     String filas[][]={{"","",""}};
     public JTable tabla;
@@ -90,12 +90,7 @@ public class Principal extends JFrame {
         usu1.setBounds(100,20,70,50);
               
         //clases
-        p_Venta= new Ventas();
-        p_Clientes= new Clientes();
-        p_Proveedores= new Proveedores();
-        p_usu= new Usuarios();
-        p_prod=new Productos(); 
-        
+    
         //paneles
         pan1 = new JPanel();
         pan1.setLayout(null);
@@ -125,110 +120,7 @@ public class Principal extends JFrame {
         JButton limpiar= new JButton("Limpiar");
         limpiar.setBounds(20,180,100,30);
         
-        //accion de botones
-       
-        Manejador m= new Manejador();
-        usuario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(pestañas);
-                pan4.revalidate();
-                pan4.repaint();
-                
-                p_usu.fondo.setLocation(5,5);
-                pan6.removeAll();
-                pan6.add(p_usu.fondo);
-                pan6.revalidate();
-                pan6.repaint();
-             
-             tipo="usuario";
-            }
-        });
-        transaccionI.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-             p_Venta.pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(p_Venta.pestañas);
-                pan4.revalidate();
-                pan4.repaint();
-              
-              p_Venta.fondo.setLocation(5,5);  
-                pan6.removeAll();
-                pan6.add(p_Venta.fondo);
-                pan6.revalidate();
-                pan6.repaint();
-             tipo="ventas";
-            }
-        });
-        clientes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                p_Clientes.pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(p_Clientes.pestañas);
-                pan4.revalidate();
-                pan4.repaint();
-                
-                p_Clientes.fondo.setLocation(5,5);
-                pan6.removeAll();
-                pan6.add(p_Clientes.fondo);
-                pan6.revalidate();
-                pan6.repaint();
-                tipo="clientes";
-            }
-        });
-        proveedores.addActionListener(new ActionListener() {//<----------------------------------------------------------------
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tipo="Proveedores";
-                p_Proveedores.pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(p_Proveedores.pestañas);
-                pan4.revalidate();
-                pan4.repaint();
-                
-                p_Proveedores.fondo.setLocation(5,5);
-                pan6.removeAll();
-                pan6.add(p_Proveedores.fondo);
-                pan6.revalidate();
-                pan6.repaint();
-            }
-        });
-        productos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tipo="Productos";
-                p_prod.pestañas.setLocation(5,5);
-                pan4.removeAll();
-                pan4.add(p_prod.pestañas);
-                pan4.revalidate();
-                pan4.repaint();
-                
-                p_prod.fondo.setLocation(5,5);
-                pan6.removeAll();
-                pan6.add(p_prod.fondo);
-                pan6.revalidate();
-                pan6.repaint();
-                
-            }
-        });
-        
-        guardar.addActionListener(m);
-        borrar.addActionListener(m);
-        modificar.addActionListener(m);
-        buscar.addActionListener(m);
-        limpiar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               p_usu.limpiar();
-               p_Clientes.limpiar();
-               p_usu.limpiar();
-               p_Venta.limpiar();
-            }
-        });
+        //accion de botones       
         
         catalogos.add(usuario);
         catalogos.add(clientes);
@@ -245,8 +137,8 @@ public class Principal extends JFrame {
         JButton btn= new JButton("sdfgbhnj");
         pan2.setBounds(612,0,185,95);
         pan3.setBounds(612,105,185,240);
-        pan4.setBounds(20,370,600,191);
-        pan6.setBounds(0,0,620,370);
+        pan4.setBounds(20,330,600,191);
+        pan6.setBounds(30,50,570,150);
         pan2.add(fecha);
         pan2.add(fecha_act);
         pan2.add(usu);  
@@ -262,13 +154,13 @@ public class Principal extends JFrame {
         
         //pestañas
         pestañas= new JTabbedPane();
-        pestañas.addTab("Usuario",null,p_usu.fondoTbla);
-        pestañas.addTab("Datos Personales ",null, 
-                this.p_usu.tabla2);
+
         
         
         pan5.add(pestañas);
-        
+        this.p_prod=new Productos();
+        pan6.add(this.p_prod.pan1);
+        pan4.add(this.p_prod.pestañas);
         
         pan1.add(pan6);
         pan1.add(pan2);
